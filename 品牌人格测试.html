@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>品牌人格测试 | 看看你的品牌是什么性格</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+        
+        /* 封面页 */
+        .cover-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .cover-title h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .cover-title .subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .cover-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        
+        .cover-desc {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+        
+        .cover-desc p {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .dimension-preview {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .dimension-preview h3 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .dimension-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+        
+        .dimension-item span:first-child {
+            color: #333;
+        }
+        
+        .dimension-item span:last-child {
+            color: #999;
+        }
+        
+        .start-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* 进度条 */
+        .progress-bar {
+            background: #f0f0f0;
+            border-radius: 10px;
+            height: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-inner {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            text-align: center;
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 25px;
+        }
+        
+        /* 题目 */
+        .question-group {
+            margin-bottom: 30px;
+        }
+        
+        .group-title {
+            font-size: 13px;
+            color: #667eea;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+        }
+        
+        .question-num {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+        
+        .question-text {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .option {
+            padding: 14px 16px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+        }
+        
+        .option:hover {
+            border-color: #667eea;
+            background: #f8f6ff;
+        }
+        
+        .option.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+        
+        .option-letter {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+            background: #f0f0f0;
+            border-radius: 6px;
+            margin-right: 10px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        
+        .option.selected .option-letter {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .nav-btns {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .prev-btn {
+            background: #f0f0f0;
+            color: #666;
+        }
+        
+        .next-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* 结果页 */
+        .result-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .result-label {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+        
+        .result-code {
+            font-size: 56px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .result-name {
+            font-size: 24px;
+            color: #333;
+            font-weight: 700;
+        }
+        
+        .result-tagline {
+            font-size: 15px;
+            color: #666;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        .result-section {
+            margin-bottom: 25px;
+        }
+        
+        .result-section h3 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .result-section h3::before {
+            content: '';
+            width: 4px;
+            height: 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 2px;
+            margin-right: 8px;
+        }
+        
+        .result-section p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .result-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .result-tag {
+            padding: 6px 14px;
+            background: #f0f6ff;
+            color: #667eea;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+        
+        .result-tips {
+            background: #fff9e6;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .result-tips h4 {
+            font-size: 14px;
+            color: #b38600;
+            margin-bottom: 10px;
+        }
+        
+        .result-tips ul {
+            list-style: none;
+        }
+        
+        .result-tips li {
+            font-size: 13px;
+            color: #8a6d00;
+            margin-bottom: 6px;
+            padding-left: 16px;
+            position: relative;
+        }
+        
+        .result-tips li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+        }
+        
+        .result-brands {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .result-brand {
+            padding: 6px 12px;
+            background: #f5f5f5;
+            color: #666;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+        
+        .share-btns {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+        
+        .share-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+        
+        .share-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .share-wechat {
+            background: #07c160;
+            color: white;
+        }
+        
+        .share-moment {
+            background: linear-gradient(135deg, #f0c30f, #ff9500);
+            color: white;
+        }
+        
+        .share-copy {
+            background: #667eea;
+            color: white;
+        }
+        
+        .retest-btn {
+            width: 100%;
+            padding: 14px;
+            background: #f0f0f0;
+            color: #666;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+        
+        .retest-btn:hover {
+            background: #e0e0e0;
+        }
+        
+        .copy-success {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            z-index: 1000;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* 移动端适配 */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .card {
+                padding: 30px 20px;
+                border-radius: 20px;
+            }
+            
+            .cover-title h1 {
+                font-size: 24px;
+            }
+            
+            .result-code {
+                font-size: 48px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 封面页 -->
+        <div id="cover" class="card">
+            <div class="cover-title">
+                <span class="cover-badge">品牌人人格测试</span>
+                <h1>你的品牌是什么人格？</h1>
+                <p class="subtitle">48道题，测出你的品牌性格</p>
+            </div>
+            
+            <div class="cover-desc">
+                <p>每个品牌都有独特的"性格"，它决定了品牌如何与用户沟通、如何面对竞争、如何定义成功。</p>
+                <p>这套测试基于4个核心维度，帮你精准定位品牌人格，找到最适合的发展策略。</p>
+            </div>
+            
+            <div class="dimension-preview">
+                <h3>四大维度</h3>
+                <div class="dimension-item">
+                    <span>V/R 视野</span>
+                    <span>理想主义 vs 务实主义</span>
+                </div>
+                <div class="dimension-item">
+                    <span>O/G 调性</span>
+                    <span>高雅精致 vs 接地气亲民</span>
+                </div>
+                <div class="dimension-item">
+                    <span>E/N 气场</span>
+                    <span>冷静内敛 vs 热情张扬</span>
+                </div>
+                <div class="dimension-item">
+                    <span>A/P 行动</span>
+                    <span>引领主导 vs 陪伴服务</span>
+                </div>
+            </div>
+            
+            <button class="start-btn" onclick="startTest()">开始测试</button>
+        </div>
+        
+        <!-- 测试页面 -->
+        <div id="test" class="card hidden">
+            <div class="progress-bar">
+                <div class="progress-inner" id="progress"></div>
+            </div>
+            <p class="progress-text" id="progressText">第 1-12 题，共 48 题</p>
+            
+            <div id="questions"></div>
+            
+            <div class="nav-btns">
+                <button class="nav-btn prev-btn" id="prevBtn" onclick="prevGroup()" disabled>上一组</button>
+                <button class="nav-btn next-btn" id="nextBtn" onclick="nextGroup()">下一组</button>
+            </div>
+        </div>
+        
+        <!-- 结果页 -->
+        <div id="result" class="card hidden">
+            <div class="result-header">
+                <p class="result-label">你的品牌人格是</p>
+                <h1 class="result-code" id="resultCode">VOEA</h1>
+                <h2 class="result-name" id="resultName">远见大师</h2>
+                <p class="result-tagline" id="resultTagline">"我们不是在卖产品，而是在重新定义这个品类。"</p>
+            </div>
+            
+            <div class="result-section">
+                <h3>核心特征</h3>
+                <p id="resultFeatures"></p>
+            </div>
+            
+            <div class="result-section">
+                <h3>品牌调性</h3>
+                <p id="resultTone"></p>
+            </div>
+            
+            <div class="result-section">
+                <h3>性格标签</h3>
+                <div class="result-tags" id="resultTags"></div>
+            </div>
+            
+            <div class="result-section">
+                <h3>适合品牌类型</h3>
+                <p id="resultTypes"></p>
+            </div>
+            
+            <div class="result-tips">
+                <h4>营销策略建议</h4>
+                <ul id="resultTips"></ul>
+            </div>
+            
+            <div class="result-section">
+                <h3>代表品牌</h3>
+                <div class="result-brands" id="resultBrands"></div>
+            </div>
+            
+            <div class="share-btns">
+                <button class="share-btn share-wechat" onclick="shareWechat()">
+                    <span>分享给好友</span>
+                </button>
+                <button class="share-btn share-copy" onclick="copyLink()">
+                    <span>复制链接</span>
+                </button>
+            </div>
+            
+            <button class="retest-btn" onclick="restartTest()">重新测试</button>
+        </div>
+    </div>
+
+    <script>
+        // 题目数据
+        const questions = {
+            V: [
+                { q: "品牌做年度规划时，最先考虑的是？", opts: ["行业趋势和未来5年机会", "今年能完成多少业绩", "如何改变行业的格局", "风险防控和安全边际"] },
+                { q: "当竞品出了一个爆款产品，你会？", opts: ["深入研究，争取超越它", "趁热度快速跟进模仿", "分析底层逻辑，寻找差异化突破口", "看看用户反馈再决定"] },
+                { q: "品牌愿景更接近？", opts: ["成为行业标准的制定者", "持续盈利，稳健发展", "改变人们对这件事的认知", "让更多人用上我们的产品"] },
+                { q: "面对一个全新的市场机会，你们会？", opts: ["第一个冲进去，抢占先机", "等市场成熟再进入", "先小规模试水验证", "谨慎评估，风险太大不做"] },
+                { q: "你认为品牌的核心壁垒是？", opts: ["技术专利和创新研发", "规模效应和成本优势", "品牌心智和用户认知", "供应链和渠道网络"] },
+                { q: "面对长期主义和短期利益的冲突，你会？", opts: ["坚定选择长期主义", "短期利益优先，先活下来", "长期为主，短期为辅", "看阶段，看情况"] },
+                { q: "品牌的增长策略更倾向于？", opts: ["创新驱动，创造新需求", "渠道下沉，市场覆盖", "品类扩张，多元化发展", "用户运营，私域深耕"] },
+                { q: "如果品牌可以拥有超能力，你希望是？", opts: ["预知未来趋势的能力", "让用户永远信任品牌", "改变用户认知的能力", "无限的资金支持"] },
+                { q: "品牌在社会责任方面，你认为应该？", opts: ["主动承担，做ESG标杆", "合法合规就够了", "联合公益机构，长期投入", "量力而行，有机会就做"] },
+                { q: "品牌的终极目标是什么？", opts: ["成为全球知名品牌", "做成一家百年老店", "推动行业进步", "持续盈利，稳健发展"] },
+                { q: "品牌的竞争对手是谁？", opts: ["所有能满足同类需求的品牌", "品类内最大的那个品牌", "用户固有的消费习惯", "行业头部和巨头"] },
+                { q: "品牌最想拥有的资源是？", opts: ["最顶尖的人才", "最强的供应链", "最多的用户数据", "最忠诚的用户群体"] }
+            ],
+            O: [
+                { q: "品牌宣传物料的画风，更接近？", opts: ["高大上，请明星代言", "接地气，用普通人做案例", "有调性，讲故事讲情怀", "真实感，像素不高但有内容"] },
+                { q: "品牌官方账号的内容风格是？", opts: ["专业输出，行业干货", "活泼有趣，紧跟热点", "真诚分享，像朋友聊天", "简约克制，少说多展示"] },
+                { q: "用户购买你的产品，最看重的是什么？", opts: ["品牌带来的面子和身份认同", "性价比和实用性", "和品牌之间的情感连接", "产品本身的功能和质量"] },
+                { q: "遇到负面评价或投诉时，品牌会怎么处理？", opts: ["诚恳道歉，给出解决方案", "幽默化解，自嘲一波", "联系用户，私下解决", "冷处理，等热度过去"] },
+                { q: "品牌的文案风格更接近？", opts: ["\"XX行业领导者，值得信赖\"", "\"便宜有好货\"", "\"因为XX，所以选择\"", "\"不是XX，而是YY\""] },
+                { q: "品牌代言人一般会选择？", opts: ["一线明星，头部流量", "真实用户，素人口碑", "行业专家，KOL背书", "品牌创始人自己"] },
+                { q: "品牌跨界合作，更倾向于选择？", opts: ["同样高端的品牌，格调一致", "反差大的品牌，制造话题", "用户重叠的品牌，精准触达", "热门IP和潮流文化"] },
+                { q: "品牌遇到危机时，第一反应是？", opts: ["第一时间发声明", "让子弹飞一会儿", "诚恳道歉承担责任", "查清事实再说"] },
+                { q: "品牌的联名活动更看重什么？", opts: ["品牌势能的提升", "话题性和传播量", "能否破圈带来新用户", "销量转化和GMV"] },
+                { q: "品牌最希望给用户留下什么印象？", opts: ["专业可靠，值得信赖", "有趣好玩，活力满满", "高端大气，有身份感", "真诚实在，靠谱踏实"] },
+                { q: "品牌对\"土味营销\"的态度？", opts: ["绝对不做，有损品牌形象", "如果能火，可以适当尝试", "坚守调性，不为流量妥协", "核心用户群接受就行"] },
+                { q: "品牌的视觉设计由谁来把关？", opts: ["创始人亲自定稿", "专业设计团队", "第三方创意公司", "设计总监负责"] }
+            ],
+            E: [
+                { q: "品牌的核心目标人群是？", opts: ["追求新鲜感的年轻人", "成熟理性的中产人群", "全年龄段覆盖", "特定圈层的深度用户"] },
+                { q: "品牌的视觉主色调更接近？", opts: ["红色/橙色等暖色调", "蓝色/绿色等冷色调", "多彩撞色，活力满满", "黑白色系，极简高级"] },
+                { q: "品牌广告的BGM一般选？", opts: ["激昂热血，震撼人心", "舒缓安静，氛围感强", "有节奏感的快歌", "轻音乐，商务感"] },
+                { q: "品牌希望给用户的第一感受是？", opts: ["\"哇，好厉害的感觉\"", "\"嗯，靠谱的感觉\"", "\"哈，好有趣的感觉\"", "\"嗯，懂我的感觉\""] },
+                { q: "品牌发布会的风格是？", opts: ["科技发布会，大场面大制作", "小而美的品鉴会/沙龙", "户外体验/音乐节风格", "用户见面会，真诚沟通"] },
+                { q: "品牌的APP界面设计风格？", opts: ["奢华感，高级定制", "简约克制的性冷淡风", "活泼可爱，少女心", "温馨感，像家一样"] },
+                { q: "品牌在做传播时，更关注？", opts: ["曝光量和覆盖人群", "话题性和二次传播", "用户互动和参与度", "直接的销售转化"] },
+                { q: "品牌的员工对外形象应该是？", opts: ["统一着装，专业干练", "便装出镜，亲切自然", "高颜值，好感度", "技术范儿，极客感"] },
+                { q: "品牌的IP形象应该是什么风格？", opts: ["拟人化的品牌吉祥物", "极简的几何图形", "萌系可爱，人见人爱", "不做IP，专注产品"] },
+                { q: "品牌视频广告的时长倾向？", opts: ["60秒以上，讲完整故事", "15-30秒，信息密集", "3-5分钟，微电影", "5秒内，极短快闪"] },
+                { q: "品牌周边文创产品的风格？", opts: ["高端定制，收藏价值", "实用为主，用户需要", "萌系可爱，人见人爱", "简约冷淡，有品位"] },
+                { q: "品牌对于热点的态度？", opts: ["第一时间跟进蹭热点", "有选择性地参与", "制造热点，让别人跟", "坚守品牌调性，不蹭"] }
+            ],
+            A: [
+                { q: "新品发布时，品牌会怎么做？", opts: ["提前预热，吊足胃口", "先给核心用户内测", "突然发布，制造惊喜", "低调上线，让用户自然发现"] },
+                { q: "品牌与KOL合作，更倾向选？", opts: ["头部大V，带货能力强", "不投KOL，靠产品说话", "垂直领域KOL，专业背书", "素人博主，真实种草"] },
+                { q: "用户问了一个产品没有的功能，你会？", opts: ["告诉他什么时候会上线", "记下来，反馈给产品团队", "推荐现有类似功能替代", "耐心解释产品设计理念"] },
+                { q: "品牌的slogan风格更接近？", opts: ["霸气型：\"XX行业领导者\"", "无slogan，靠产品说话", "情怀型：\"让XX改变生活\"", "功能型：\"XX，就选XX\""] },
+                { q: "面对一个新的商业机会，决策风格是？", opts: ["先深度调研，再决定做不做", "等待成熟时机再进入", "先小步快跑，快速试错", "边做边想，船到桥头自然直"] },
+                { q: "品牌与用户建立关系的方式是？", opts: ["创始人IP，与用户直接对话", "通过优质产品赢得好口碑", "打造私域社群，深度运营", "会员体系，权益驱动"] },
+                { q: "品牌面对竞品攻击时，会？", opts: ["公开回应，正面反驳", "内部复盘，优化自己", "幽默化解，四两拨千斤", "用产品说话，不回应"] },
+                { q: "品牌的定价策略是？", opts: ["高价策略，品牌溢价", "性价比路线，走量为主", "阶梯定价，满足不同人群", "价值定价，用户感知决定"] },
+                { q: "品牌的渠道策略更侧重？", opts: ["线上为主，电商直销", "私域为主，降低获客成本", "全渠道布局，线上线下融合", "线下体验，终端为王"] },
+                { q: "品牌做用户增长时，更看重？", opts: ["付费投放，快速起量", "私域运营，存量转化", "内容营销，自然增长", "裂变活动，用户带用户"] },
+                { q: "品牌内部开会出现分歧一般怎么解决？", opts: ["老板最终拍板决定", "充分讨论，争取达成共识", "数据说话，用AB测试决定", "搁置争议，先做再说"] },
+                { q: "品牌成功与否，你最看重哪个指标？", opts: ["营收规模和市场份额", "品牌知名度和美誉度", "用户口碑和NPS评分", "复购率和用户忠诚度"] }
+            ]
+        };
+
+        // 人格数据
+        const personalities = {
+            VOEA: { name: "远见大师", tagline: "\"我们不是在卖产品，而是在重新定义这个品类。\"", features: "高大上、有格局、行业引领者。不是跟随趋势，而是创造趋势。有强烈的使命感和愿景驱动，相信品牌可以改变世界。", tone: "极简克制，高级感满满。黑白灰为主色调，大面积留白，字体选择无衬线体。产品图追求杂志大片质感。", tags: ["高端", "引领", "专业", "克制", "使命驱动"], types: "高端科技品牌、奢侈品牌、新能源汽车、专业医疗器械、航空出行", tips: ["减少促销和打折，维护品牌调性", "多做品牌层面的内容输出", "创始人是最好的代言人", "避免接地气的土味营销"], brands: ["苹果", "特斯拉", "爱马仕", "戴森"] },
+            VOEP: { name: "典雅匠人", tagline: "\"好东西，值得被认真对待。\"", features: "追求品质与格调，但不会高高在上。更像一位懂生活、有品味的友人，用产品和用户建立深度的情感连接。", tone: "有温度的高级感。不是冷冰冰的极简，而是带着人文气息的精致。暖色调、米色系、手工感元素。", tags: ["品质", "温度", "格调", "人文", "精致"], types: "精品生活方式品牌、小众设计师品牌、高端家居、文化艺术类", tips: ["注重用户社区的打造", "KOL选择要有调性，不是流量最大", "多做线下体验活动", "用户故事是最好的内容"], brands: ["无印良品", "观夏", "北鼎", "内外"] },
+            VONA: { name: "创新先锋", tagline: "\"这就是未来的样子，跟上来。\"", features: "有远见、有格调，但同样充满热情和活力。相信好的品牌应该被更多人看见，愿意主动站出来引领潮流。", tone: "高端又年轻，可能是高级感+潮流元素的混搭。色彩运用更大胆，但不失品质感。", tags: ["创新", "活力", "年轻", "高端", "引领"], types: "新锐高端品牌、科技国潮、设计师服装、新能源汽车", tips: ["可以适度参与热点，但要转化为自己语言", "选择调性高的年轻化KOL", "联名要有话题性和品质感", "发布会要有话题度和传播性"], brands: ["蔚来", "蕉内", "lululemon", "元气森林"] },
+            VONP: { name: "梦想家", tagline: "\"我们一起，让这件事变得更好。\"", features: "有情怀、有温度、充满理想主义色彩。不是高高在上地教育用户，而是用真诚和热情感染每一个人。", tone: "温暖有爱，色彩柔和但有活力。图片风格追求真实感，偶有插画元素点缀。", tags: ["情怀", "温度", "真诚", "热情", "陪伴"], types: "消费品牌、公益品牌、母婴品牌、文化品牌、宠物品牌", tips: ["用户共创是核心策略", "创始人IP化，但要走心不要油腻", "多做情怀类和公益类内容", "注重私域运营，和用户做朋友"], brands: ["三顿半", "超级猩猩", "keep", "泡泡玛特"] },
+            VGEA: { name: "破局者", tagline: "\"你们太土了，看我的。\"", features: "接地气的理想主义者。既有改变世界的愿景，又能放下身段和用户打成一片。是行业里的\"鲶鱼\"，搅动格局。", tone: "反差感——可能是接地气的生活场景，但呈现出来的感觉很有冲击力。有种\"野生感\"但又有品质。", tags: ["颠覆", "直接", "大胆", "话题", "反差"], types: "互联网品牌、新消费品牌、吐槽型品牌、颠覆性新品牌", tips: ["创始人要敢说话、敢说真话", "社交媒体要有网感，敢玩梗", "不怕争议，有时候争议是好事", "可以适当\"碰瓷\"行业大佬"], brands: ["瑞幸", "蜜雪冰城", "钟薛高", "老乡鸡"] },
+            VGEP: { name: "暖心陪伴者", tagline: "\"有事找我，我一直都在。\"", features: "接地气、有温度、默默陪伴。是用户生活中的好朋友，不张扬但很靠谱。注重服务体验，把用户当家人。", tone: "温馨亲切，没有距离感。真实的生活场景，随手拍的感觉但很温暖。", tags: ["温暖", "陪伴", "服务", "靠谱", "亲切"], types: "本地生活服务、餐饮连锁、便利店、母婴用品、社区服务", tips: ["服务是核心，要做好每一个细节", "私域运营是关键，和用户保持联系", "会员体系要实在，给用户真正的福利", "多做用户回访和关怀"], brands: ["海底捞", "旺旺", "蜜雪冰城", "美团"] },
+            VGNA: { name: "社交达人", tagline: "\"来来来，一起玩！\"", features: "接地气、有活力、超级会玩。是品牌里的\"话痨\"，社交媒体上永远活跃，追热点、造话题一把好手。", tone: "色彩丰富、充满活力。紧跟流行趋势，热点什么风格就用什么风格。", tags: ["活跃", "话题", "好玩", "互动", "年轻"], types: "饮料零食、潮流品牌、娱乐类、快消品、年轻人的品牌", tips: ["社交媒体是主战场", "多做互动活动，鼓励用户参与", "热点要快速响应", "KOL合作要选有网感的"], brands: ["卫龙", "旺旺", "杜蕾斯", "COCO奶茶"] },
+            VGNP: { name: "社区领袖", tagline: "\"加入我们，一起搞事情。\"", features: "接地气、有热情，把用户当朋友。是圈子里的意见领袖，有自己的态度和主张，愿意带着用户一起玩。", tone: "真实感强，有圈子文化的氛围。用户生成内容为主，展示真实的生活场景。", tags: ["圈子", "态度", "参与", "归属", "共创"], types: "潮牌、极限运动、数码极客、文艺类、亚文化品牌", tips: ["打造品牌社区，让用户有归属感", "KOC比KOL更重要", "多做线下活动，增强粘性", "用户分层运营，核心用户要维护好"], brands: ["蔚来", "得物", "虎扑", "AJ粉丝群"] },
+            RGEA: { name: "效率领袖", tagline: "\"别废话，看结果。\"", features: "务实、高效、有决断力。讲究结果导向，做事雷厉风行。是行业里的实干派，用业绩说话。", tone: "商务简洁，直奔主题。没有多余装饰，信息传达清晰高效。", tags: ["效率", "结果", "务实", "专业", "决断"], types: "B2B品牌、企业服务、SaaS、咨询公司、工业品牌", tips: ["销售转化是核心KPI", "内容要专业、有深度", "客户案例是最好的背书", "减少花里胡哨的东西"], brands: ["SAP", "Salesforce", "华为企业", "西门子"] },
+            RGEP: { name: "品质管家", tagline: "\"交给我，你放心。\"", features: "务实、靠谱、注重服务。是用户最放心的选择，不追求花哨，但永远值得信赖。", tone: "稳重、实在，没有距离感。品质感是有的，但不高冷。", tags: ["靠谱", "实在", "服务", "稳重", "信赖"], types: "家电品牌、品质生活、安全类、长期消费品", tips: ["口碑是最重要的资产", "售后和服务要做得比承诺更好", "会员体系要体现长期价值", "减少营销套路，真诚最重要"], brands: ["美的", "海尔", "格力", "顺丰"] },
+            RGNA: { name: "活力引擎", tagline: "\"跟着我，冲冲冲！\"", features: "务实但有激情，讲究效率但不失活力。是品牌里的\"发动机\"，推动增长，带动节奏。", tone: "年轻化、有冲击力。色彩鲜明，节奏感强。", tags: ["活力", "增长", "热情", "促销", "节奏"], types: "电商平台、促销活动、性价比品牌、增长型消费品牌", tips: ["促销活动是主要手段", "要有话题性和传播性", "直播带货可以多做", "用户裂变是增长关键"], brands: ["拼多多", "唯品会", "京东秒杀", "淘宝直播"] },
+            RGNP: { name: "信任伙伴", tagline: "\"懂你，所以更用心。\"", features: "务实、有温度，是用户最贴心的伙伴。不是高高在上的服务者，而是懂用户需求的贴心人。", tone: "温暖、亲切、接地气。有生活气息，不做作。", tags: ["贴心", "信任", "温度", "口碑", "社区"], types: "本地生活服务、母婴用品、生活服务类、社区团购", tips: ["用户运营是核心", "私域社群要活跃", "多做用户关怀", "口碑传播是增长引擎"], brands: ["美团", "盒马", "孩子王", "屈臣氏"] },
+            RNEA: { name: "专业顾问", tagline: "\"相信我，这是最优解。\"", features: "务实、冷静、专业。是行业里的\"老法师\"，用专业能力帮助用户解决问题。", tone: "专业、克制、有深度。可能偏技术感或学术感。", tags: ["专业", "冷静", "权威", "信赖", "有料"], types: "专业服务、医疗健康、金融保险、教育培训", tips: ["专业内容是获客核心", "专家KOL背书很重要", "可以多做知识类内容", "转化周期可能较长，要耐心"], brands: ["丁香医生", "得到", "招商银行", "平安保险"] },
+            RNEP: { name: "智慧陪伴者", tagline: "\"慢慢来，我陪你。\"", features: "务实、温暖、有耐心。是用户成长路上的陪伴者，提供支持但不强加观点。", tone: "温暖但不张扬，有学习氛围。可能有点学院风或人文感。", tags: ["陪伴", "成长", "耐心", "温暖", "智慧"], types: "在线教育、心理咨询、健身App、母婴、早教", tips: ["用户陪伴是核心", "社群运营要做得细致", "内容要有成长感", "注重用户反馈"], brands: ["得到", "keep", "薄荷健康", "亲宝宝"] },
+            RNNA: { name: "增长黑客", tagline: "\"增长是一切。\"", features: "务实、热情、追求增长。是品牌里的\"拼命三郎\"，永远在想怎么获取更多用户、提升业绩。", tone: "醒目、有冲击力，容易被抓眼球。促销感强。", tags: ["增长", "热情", "直接", "GMV", "效率"], types: "电商大促、直播带货、团购平台、性价比品牌", tips: ["GMV是核心KPI", "促销活动要持续", "流量采买是必须", "转化路径要短"], brands: ["拼多多", "抖音电商", "淘宝特价版"] },
+            RNNP: { name: "实用主义者", tagline: "\"便宜好用，就完事了。\"", features: "务实、接地气、追求性价比。是用户眼里\"最实在\"的选择，不整虚的，就看疗效。", tone: "朴实无华，直接展示产品和价格。没有过多的包装。", tags: ["实在", "性价比", "直接", "实用", "简单"], types: "白牌商品、工厂直销、性价比品牌、下沉市场", tips: ["性价比是核心竞争力", "减少营销成本让利给用户", "用户评价是最重要的资产", "复购和口碑是关键"], brands: ["拼多多", "1688", "源头工厂"] }
+        };
+
+        // 状态变量
+        let currentGroup = 0;
+        const groups = ['V', 'O', 'E', 'A'];
+        let answers = {};
+        let currentResult = '';
+
+        // 计分映射
+        const scoring = {
+            V: [0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2],  // A,C=0(B), B,D=1(R)
+            O: [0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2],  // A,C=0(O), B,D=1(G)
+            E: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],  // A,B=0(E), C,D=1(N) 修正：AB为冷静，CD为热情
+            A: [0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2]   // A,C=0(A), B,D=1(P)
+        };
+
+        // 开始测试
+        function startTest() {
+            document.getElementById('cover').classList.add('hidden');
+            document.getElementById('test').classList.remove('hidden');
+            currentGroup = 0;
+            answers = {};
+            renderQuestions();
+        }
+
+        // 渲染题目
+        function renderQuestions() {
+            const dimension = groups[currentGroup];
+            const dimensionNames = { V: 'V视野维度', O: 'O调性维度', E: 'E气场维度', A: 'A行动维度' };
+            const dimensionNamesCn = { V: '理想主义 vs 务实主义', O: '高雅精致 vs 接地气亲民', E: '冷静内敛 vs 热情张扬', A: '引领主导 vs 陪伴服务' };
+            
+            let html = `
+                <div class="question-group">
+                    <p class="group-title">${dimensionNames[dimension]} · ${dimensionNamesCn[dimension]}</p>
+            `;
+            
+            questions[dimension].forEach((q, i) => {
+                const globalIndex = currentGroup * 12 + i + 1;
+                html += `
+                    <div class="question">
+                        <p class="question-num">第 ${globalIndex} 题</p>
+                        <p class="question-text">${q.q}</p>
+                        <div class="options">
+                `;
+                
+                const letters = ['A', 'B', 'C', 'D'];
+                letters.forEach((letter, j) => {
+                    const selected = answers[`${dimension}_${i}`] === j ? 'selected' : '';
+                    html += `<div class="option ${selected}" onclick="selectOption('${dimension}', ${i}, ${j})"><span class="option-letter">${letter}</span>${q.opts[j]}</div>`;
+                });
+                
+                html += '</div></div>';
+            });
+            
+            html += '</div>';
+            
+            document.getElementById('questions').innerHTML = html;
+            
+            // 更新进度
+            const progress = ((currentGroup + 1) / 4) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+            
+            const startQ = currentGroup * 12 + 1;
+            const endQ = (currentGroup + 1) * 12;
+            document.getElementById('progressText').textContent = `第 ${startQ}-${endQ} 题，共 48 题`;
+            
+            // 更新按钮状态
+            document.getElementById('prevBtn').disabled = currentGroup === 0;
+            document.getElementById('nextBtn').textContent = currentGroup === 3 ? '查看结果' : '下一组';
+        }
+
+        // 选择选项
+        function selectOption(dimension, questionIndex, optionIndex) {
+            answers[`${dimension}_${questionIndex}`] = optionIndex;
+            
+            // 更新UI
+            const questionEl = document.querySelectorAll('.question')[questionIndex];
+            questionEl.querySelectorAll('.option').forEach((opt, i) => {
+                opt.classList.toggle('selected', i === optionIndex);
+            });
+        }
+
+        // 上一组
+        function prevGroup() {
+            if (currentGroup > 0) {
+                currentGroup--;
+                renderQuestions();
+            }
+        }
+
+        // 下一组
+        function nextGroup() {
+            // 检查当前组是否全部作答
+            const dimension = groups[currentGroup];
+            let allAnswered = true;
+            for (let i = 0; i < 12; i++) {
+                if (answers[`${dimension}_${i}`] === undefined) {
+                    allAnswered = false;
+                    break;
+                }
+            }
+            
+            if (!allAnswered) {
+                alert('请完成所有题目后再继续');
+                return;
+            }
+            
+            if (currentGroup < 3) {
+                currentGroup++;
+                renderQuestions();
+            } else {
+                showResult();
+            }
+        }
+
+        // 计算结果
+        function calculateResult() {
+            let scores = { V: 0, O: 0, E: 0, A: 0 };
+            
+            // 统计每个维度的得分
+            groups.forEach(dim => {
+                for (let i = 0; i < 12; i++) {
+                    const answer = answers[`${dim}_${i}`];
+                    if (dim === 'E') {
+                        // E维度：A,B=冷静(0), C,D=热情(1)
+                        if (answer >= 2) scores[dim]++;
+                    } else {
+                        // 其他维度：A,C=第一个字母(0), B,D=第二个字母(1)
+                        if (answer % 2 === 1) scores[dim]++;
+                    }
+                }
+            });
+            
+            // 确定每个维度的字母
+            let result = '';
+            result += scores.V >= 6 ? 'V' : 'R';
+            result += scores.O >= 6 ? 'O' : 'G';
+            result += scores.E >= 6 ? 'N' : 'E';
+            result += scores.A >= 6 ? 'A' : 'P';
+            
+            return result;
+        }
+
+        // 显示结果
+        function showResult() {
+            currentResult = calculateResult();
+            const data = personalities[currentResult];
+            
+            document.getElementById('test').classList.add('hidden');
+            document.getElementById('result').classList.remove('hidden');
+            
+            document.getElementById('resultCode').textContent = currentResult;
+            document.getElementById('resultName').textContent = data.name;
+            document.getElementById('resultTagline').textContent = data.tagline;
+            document.getElementById('resultFeatures').textContent = data.features;
+            document.getElementById('resultTone').textContent = data.tone;
+            document.getElementById('resultTypes').textContent = data.types;
+            
+            // 标签
+            let tagsHtml = '';
+            data.tags.forEach(tag => {
+                tagsHtml += `<span class="result-tag">${tag}</span>`;
+            });
+            document.getElementById('resultTags').innerHTML = tagsHtml;
+            
+            // 建议
+            let tipsHtml = '';
+            data.tips.forEach(tip => {
+                tipsHtml += `<li>${tip}</li>`;
+            });
+            document.getElementById('resultTips').innerHTML = tipsHtml;
+            
+            // 品牌
+            let brandsHtml = '';
+            data.brands.forEach(brand => {
+                brandsHtml += `<span class="result-brand">${brand}</span>`;
+            });
+            document.getElementById('resultBrands').innerHTML = brandsHtml;
+        }
+
+        // 重新测试
+        function restartTest() {
+            document.getElementById('result').classList.add('hidden');
+            document.getElementById('cover').classList.remove('hidden');
+            currentGroup = 0;
+            answers = {};
+        }
+
+        // 分享
+        function shareWechat() {
+            alert('请截图分享您的测试结果到微信好友或朋友圈');
+        }
+
+        function copyLink() {
+            const text = `我的品牌人格是【${currentResult} ${personalities[currentResult].name}】！快来测测你的品牌是什么性格：\n${window.location.href}`;
+            navigator.clipboard.writeText(text).then(() => {
+                const tip = document.createElement('div');
+                tip.className = 'copy-success';
+                tip.textContent = '链接已复制到剪贴板';
+                document.body.appendChild(tip);
+                setTimeout(() => tip.remove(), 2000);
+            });
+        }
+    </script>
+</body>
+</html>
